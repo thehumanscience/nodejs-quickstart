@@ -2,6 +2,12 @@ const express = require('express');
 const mysql = require('mysql');
 const response = require('./methods.js')
 const app = express();
+const path = require('path');
+
+app.set("view engine", "pug");
+app.set("views", path.join(__dirname, "./views"));
+
+/* ... rest of the application goes here ... */
 
 var frequentCalls = response.methods.methodsToPass();
 
@@ -73,7 +79,19 @@ app.get('/getposts', (req, res) => {
     let query = db.query(sql, (err, results) => {
         if(err) console.log( err);
         console.log(results);
-        res.send('Posts fetched...');
+        //res.send('Posts fetched...');
+        res.render('getposts');
+    });
+});
+
+// Select posts
+app.get('/hello', (req, res) => {
+    let sql = 'SELECT * FROM nodemysql.posts';
+    let query = db.query(sql, (err, results) => {
+        if(err) console.log( err);
+        console.log(results);
+        //res.send('Posts fetched...');
+        res.render('hello');
     });
 });
 
