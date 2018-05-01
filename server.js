@@ -95,6 +95,18 @@ app.get('/hello', (req, res) => {
     });
 });
 
+
+// Select posts
+app.get('/bootstrap', (req, res) => {
+    let sql = 'SELECT * FROM nodemysql.posts';
+    let query = db.query(sql, (err, results) => {
+        if(err) console.log( err);
+        console.log(results);
+        //res.send('Posts fetched...');
+        res.render('bootstrap');
+    });
+});
+
 // Select single post
 app.get('/getpost/:id', (req, res) => {
     let sql = `SELECT * FROM nodemysql.posts WHERE id = ${req.params.id}`;
