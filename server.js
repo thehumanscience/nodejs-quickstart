@@ -5,13 +5,20 @@ const app = express();
 const path = require('path');
 
 app.set("view engine", "pug");
-app.set("views", path.join(__dirname, "./views"));
+
+
+// Set views path
+app.set('views', path.join(__dirname, 'views'));
+// Set public path
+app.use(express.static(path.join(__dirname, 'public')));
 
 /* ... rest of the application goes here ... */
 
 var frequentCalls = response.methods.methodsToPass();
 
 console.log(frequentCalls);
+
+
 
 // Create connection
 const db = mysql.createConnection({
@@ -79,7 +86,7 @@ app.get('/getposts', (req, res) => {
     let query = db.query(sql, (err, results) => {
         if(err) console.log( err);
         console.log(results);
-        //res.send('Posts fetched...');
+        
         res.render('getposts');
     });
 });
@@ -90,7 +97,7 @@ app.get('/hello', (req, res) => {
     let query = db.query(sql, (err, results) => {
         if(err) console.log( err);
         console.log(results);
-        //res.send('Posts fetched...');
+        
         res.render('hello');
     });
 });
@@ -102,8 +109,20 @@ app.get('/bootstrap', (req, res) => {
     let query = db.query(sql, (err, results) => {
         if(err) console.log( err);
         console.log(results);
-        //res.send('Posts fetched...');
+     
         res.render('bootstrap');
+    });
+});
+
+// Select posts
+app.get('/datatable', (req, res) => {
+    let sql = 'SELECT * FROM nodemysql.posts';
+    let query = db.query(sql, (err, results) => {
+        if(err) console.log( err);
+
+        console.log('Results: ', typeof(results));
+     	
+        res.render('datatable',{'results':results});
     });
 });
 
